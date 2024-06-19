@@ -2,7 +2,7 @@
   "name": "nuxt-file-save",
   "version": "1.0.1",
   "description": "My new Nuxt module",
-  "repository": "your-org/nuxt-file-save",
+  "repository": "nowo/nuxt-file-save",
   "license": "MIT",
   "type": "module",
   "exports": {
