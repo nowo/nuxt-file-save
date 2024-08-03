@@ -1,19 +1,34 @@
-import { defineNuxtModule, addPlugin, createResolver } from '@nuxt/kit'
+import { defineNuxtModule, addPlugin, createResolver, addServerScanDir } from '@nuxt/kit'
+import defu from 'defu'
 
-// Module options TypeScript interface definition
-export interface ModuleOptions { }
+// Here's the augmentation that makes it work
+declare module '@nuxt/schema' {
+    interface PublicRuntimeConfig {
+        fileSave: ModuleOptions
+    }
+}
 
 export default defineNuxtModule<ModuleOptions>({
     meta: {
-        name: 'my-module',
-        configKey: 'myModule',
+        name: 'file-save',
+        configKey: 'fileSave',
     },
     // Default configuration options of the Nuxt module
     defaults: {},
     setup(_options, _nuxt) {
+
+
+        const config = _nuxt.options.runtimeConfig
+        config.public.fileSave = defu(config.public.fileSave, {
+            ..._options,
+        })
+        // console.log(config.public.fileSave)
+
         const resolver = createResolver(import.meta.url)
 
         // Do not add the extension since the `.ts` will be transpiled to `.mjs` after `npm run prepack`
-        addPlugin(resolver.resolve('./runtime/plugin'))
+        // addPlugin(resolver.resolve('./runtime/plugin'))
+
+        addServerScanDir(resolver.resolve('./runtime/server'))
     },
 })
