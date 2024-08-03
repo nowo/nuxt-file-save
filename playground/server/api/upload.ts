@@ -1,8 +1,6 @@
 // example
 export default defineEventHandler(async (event) => {
-
     try {
-
         // multiple
         // const files = await receiveFiles(event, {
         //     multiple: 3, // Max 3 files at a time for now
@@ -18,14 +16,14 @@ export default defineEventHandler(async (event) => {
 
         // single
         const [file] = await receiveFiles(event, {
-            formKey: 'files',   // The key of the form data
-            multiple: false,    // Only allow one file at a time
+            formKey: 'files', // The key of the form data
+            multiple: false, // Only allow one file at a time
             ensure: {
                 maxSize: '256MB',
                 types: ['audio', 'csv', 'image', 'video', 'pdf', 'text', 'zip', 'exe'],
             },
             lang: 'zh', // Language for error messages
-        });
+        })
         // console.log('file :>> ', file);
         const date = new Date()
         // Generate folders based on time
@@ -34,18 +32,16 @@ export default defineEventHandler(async (event) => {
         const randomStr = Math.random().toString(36).substring(2, 6 + 2) // Random String 6 bits
         const fileDir = `/upload/${dateDir}`
         // randomStr
-        let url = await handleFileUpload(file, `${Date.now()}-${randomStr}`, fileDir);
+        const url = await handleFileUpload(file, `${Date.now()}-${randomStr}`, fileDir)
         if (!url) return { code: 500, msg: 'error' }
         return { code: 200, msg: 'success', data: url }
-
-    } catch (error: any) {
-        if (error?.statusCode === 1000) {   // Rewrite the message
+    }
+    catch (error: any) {    // eslint-disable-line
+        if (error?.statusCode === 1000) { // Rewrite the message
             return { code: error.statusCode, msg: 'Please upload the correct file' }
-        } else {
+        }
+        else {
             return { code: error.statusCode, msg: error.message }
         }
     }
-
 })
-
-

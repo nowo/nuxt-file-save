@@ -1,16 +1,15 @@
-
-import { createError, useRuntimeConfig } from '#imports';
-import { defu } from 'defu';
-import { createWriteStream, mkdirSync } from 'node:fs';
-import { pipeline } from 'node:stream';
-import { promisify } from 'node:util';
-import { extname } from 'node:path';
-import { H3Event, readFormData } from 'h3';
-import i18n from '../../../../lang/i18n';
-
+import { createWriteStream, mkdirSync } from 'node:fs'
+import { pipeline } from 'node:stream'
+import { promisify } from 'node:util'
+import { extname } from 'node:path'
+import { defu } from 'defu'
+import type { H3Event } from 'h3'
+import { readFormData } from 'h3'
+import i18n from '../../../../lang/i18n'
+import { createError, useRuntimeConfig } from '#imports'
 
 // Credits from shared utils of https://github.com/pingdotgg/uploadthing
-const FILE_SIZE_UNITS = ['B', 'KB', 'MB', 'GB', 'TB'];
+const FILE_SIZE_UNITS = ['B', 'KB', 'MB', 'GB', 'TB']
 
 /**
  * Helper function that converts any valid BlobSize into numeric bytes value
@@ -20,28 +19,28 @@ const FILE_SIZE_UNITS = ['B', 'KB', 'MB', 'GB', 'TB'];
  * @throws If the input is not a valid BlobSize
  */
 export function fileSizeToBytes(input: BlobSize) {
-    const regex = new RegExp(`^(\\d+)(\\.\\d+)?\\s*(${FILE_SIZE_UNITS.join('|')})$`, 'i');
-    const match = input.match(regex);
+    const regex = new RegExp(`^(\\d+)(\\.\\d+)?\\s*(${FILE_SIZE_UNITS.join('|')})$`, 'i')
+    const match = input.match(regex)
 
     if (!match) {
         throw createError({
             statusCode: 1006,
             message: i18n.t('1006', { blobSize: input }),
-        });
+        })
     }
 
-    const sizeValue = Number.parseFloat(match[1]);
-    const sizeUnit = match[3].toUpperCase() as FileSizeUnit;
+    const sizeValue = Number.parseFloat(match[1])
+    const sizeUnit = match[3].toUpperCase() as FileSizeUnit
 
     if (!FILE_SIZE_UNITS.includes(sizeUnit)) {
         throw createError({
             statusCode: 1007,
             message: i18n.t('1007', { sizeUnit }),
-        });
+        })
     }
 
-    const bytes = sizeValue * Math.pow(1024, FILE_SIZE_UNITS.indexOf(sizeUnit));
-    return Math.floor(bytes);
+    const bytes = sizeValue * Math.pow(1024, FILE_SIZE_UNITS.indexOf(sizeUnit))
+    return Math.floor(bytes)
 }
 
 /**
@@ -60,37 +59,36 @@ export function ensureBlob(blob: Blob & { name?: string }, options: BlobEnsureOp
         throw createError({
             statusCode: 1000,
             message: i18n.t('1000'),
-        });
+        })
     }
 
     if (options.maxSize) {
-        const maxFileSizeBytes = fileSizeToBytes(options.maxSize);
+        const maxFileSizeBytes = fileSizeToBytes(options.maxSize)
 
         if (blob.size > maxFileSizeBytes) {
             // File too heavy
             throw createError({
                 statusCode: 1002,
                 message: i18n.t('1002', { maxSize: options.maxSize }),
-            });
+            })
         }
     }
 
-
-    const [blobType, blobSubtype] = blob.type.split('/');
+    const [blobType, blobSubtype] = blob.type.split('/')
     const ext = blob.name?.split('.')?.pop() || ''
 
     if (
-        options.types?.length &&
-        !options.types?.includes(blob.type) &&
-        !options.types?.includes(blobType) &&
-        !options.types?.includes(blobSubtype) &&
-        !options.types?.includes(ext)
+        options.types?.length
+        && !options.types?.includes(blob.type)
+        && !options.types?.includes(blobType)
+        && !options.types?.includes(blobSubtype)
+        && !options.types?.includes(ext)
     ) {
         // Invalid file type
         throw createError({
             statusCode: 1001,
             message: i18n.t('1001', { types: options.types.join(', ') }),
-        });
+        })
     }
 }
 
@@ -100,70 +98,69 @@ export function ensureBlob(blob: Blob & { name?: string }, options: BlobEnsureOp
  * @param options The options to use
  * @example
  *  // multiple
-    const files = await receiveFiles(event, {
-        multiple: 3, // Max 3 files at a time for now
-        ensure: {
-            maxSize: '50MB', // Max 50 MB each file
-            types: ['audio', 'csv', 'image', 'video', 'pdf', 'text'], // Only allow these file types
-        },
-    });
-
-    // single
-    const [file] = await receiveFiles(event, {
-        formKey: 'files',   // The key of the form data
-        multiple: false,    // Only allow one file at a time
-        ensure: {
-            maxSize: '256MB',
-            types: ['audio', 'csv', 'image', 'video', 'pdf', 'text', 'zip', 'exe'],
-        },
-        lang: 'zh', // Language for error messages
-    });
-
+ *  const files = await receiveFiles(event, {
+ *      multiple: 3, // Max 3 files at a time for now
+ *      ensure: {
+ *          maxSize: '50MB', // Max 50 MB each file
+ *          types: ['audio', 'csv', 'image', 'video', 'pdf', 'text'], // Only allow these file types
+ *      },
+ *  });
+ *
+ *  // single
+ *  const [file] = await receiveFiles(event, {
+ *      formKey: 'files',   // The key of the form data
+ *      multiple: false,    // Only allow one file at a time
+ *      ensure: {
+ *          maxSize: '256MB',
+ *          types: ['audio', 'csv', 'image', 'video', 'pdf', 'text', 'zip', 'exe'],
+ *      },
+ *      lang: 'zh', // Language for error messages
+ *  });
+ *
  * @throws
  * If the files are invalid or don't meet the ensure conditions.
  */
 export async function receiveFiles(event: H3Event, options: BlobUploadOptions = {}) {
-    let opt = useRuntimeConfig().public.fileSave.options
-    options = defu(options, opt, { formKey: 'files', multiple: true, lang: 'en' } satisfies BlobUploadOptions);
+    const opt = useRuntimeConfig().public.fileSave.options
+    options = defu(options, opt, { formKey: 'files', multiple: true, lang: 'en' } satisfies BlobUploadOptions)
     if (i18n.language != options.lang) {
         await i18n.changeLanguage(options.lang)
     }
-    const form = await readFormData(event);
-    const files = form.getAll(options.formKey!) as File[];
+    const form = await readFormData(event)
+    const files = form.getAll(options.formKey!) as File[]
     // console.log(files)
     if (!files?.length) {
         throw createError({
             statusCode: 1003,
             message: i18n.t('1003'),
-        });
+        })
     }
 
     if (!options.multiple && files.length > 1) {
         throw createError({
             statusCode: 1004,
             message: i18n.t('1004'),
-        });
+        })
     }
 
     if (typeof options.multiple === 'number' && files.length > options.multiple) {
         throw createError({
             statusCode: 1005,
             message: i18n.t('1005', { multiple: options.multiple }),
-        });
+        })
     }
 
     if (options.ensure?.maxSize || options.ensure?.types?.length) {
         for (const file of files) {
-            ensureBlob(file, options.ensure);
+            ensureBlob(file, options.ensure)
         }
     }
 
-    return files;
+    return files
 }
 
-
 /** Inspired by Fastify's upload guide. Used to pipe the file stream into fs */
-const pump = promisify(pipeline);
+const pump = promisify(pipeline)
 
 /**
  * Stores the file on the disk
@@ -185,7 +182,7 @@ const pump = promisify(pipeline);
  * ```
  */
 export async function handleFileUpload(file: File, fileName = file.name, fileDir?: string) {
-    const ext = extname(file.name);
+    const ext = extname(file.name)
 
     let mount = useRuntimeConfig().public.fileSave.mount
     mount = typeof mount === 'string' ? mount : 'public'
@@ -193,33 +190,27 @@ export async function handleFileUpload(file: File, fileName = file.name, fileDir
     /** The name of the file to save in the local file system, When the filename does not have a suffix, fill in */
     const saveFileName = fileName.endsWith(ext) ? fileName : fileName + ext
 
-
     mkdirSync(pathJoin(mount, fileDir || ''), { recursive: true })
     /** The path to the directory where you want to save the file in the local file system */
-    const filePath = pathJoin(mount, fileDir || '', saveFileName);
+    const filePath = pathJoin(mount, fileDir || '', saveFileName)
     // console.log(filePath)
 
     try {
         /** Stream the file into the file system to save it */
-        await pump(file.stream() as any, createWriteStream(filePath));
+        await pump(file.stream(), createWriteStream(filePath))
 
         return pathJoin(fileDir || '', saveFileName)
-
-    } catch (error) {
-        console.error('Error uploading file:', error);  // Print error logs, such as PM2 log collection
+    }
+    catch (error) {
+        console.error('Error uploading file:', error) // Print error logs, such as PM2 log collection
         /** Return error response to the client */
         // throw createError({ statusCode: 500, message: 'Error uploading file' });
         return undefined
     }
-
-
 }
 
-
-
-
 /**
- *	URL address splicing
+ * URL address splicing
  * @param arg string
  * @returns string
  */

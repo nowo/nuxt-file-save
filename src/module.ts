@@ -16,8 +16,6 @@ export default defineNuxtModule<ModuleOptions>({
     // Default configuration options of the Nuxt module
     defaults: {},
     setup(_options, _nuxt) {
-
-
         const config = _nuxt.options.runtimeConfig
         config.public.fileSave = defu(config.public.fileSave, {
             ..._options,
