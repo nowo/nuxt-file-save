@@ -7,6 +7,7 @@ import type { H3Event } from 'h3'
 import { readFormData } from 'h3'
 import i18n from '../../../../lang/i18n'
 import { createError, useRuntimeConfig } from '#imports'
+import type { BlobEnsureOptions, BlobSize, BlobUploadOptions, FileSizeUnit } from '../../types/blob'
 
 // Credits from shared utils of https://github.com/pingdotgg/uploadthing
 const FILE_SIZE_UNITS = ['B', 'KB', 'MB', 'GB', 'TB']
