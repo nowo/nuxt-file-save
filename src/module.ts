@@ -1,6 +1,6 @@
 import { defineNuxtModule, addPlugin, createResolver, addServerScanDir } from '@nuxt/kit'
 import defu from 'defu'
-import type { BlobUploadOptions } from './runtime/types/blob'
+import type { BlobUploadOptions } from './runtime/server/utils/blob'
 
 // Here's the augmentation that makes it work
 declare module '@nuxt/schema' {
@@ -17,7 +17,6 @@ declare interface ModuleOptions {
     mount?: string
     options?: BlobUploadOptions
 }
-
 
 export default defineNuxtModule<ModuleOptions>({
     meta: {
