@@ -8,6 +8,9 @@ dependencies:
   '@nuxt/kit':
     specifier: ^3.11.2
     version: 3.11.2(rollup@3.29.4)
+  defu:
+    specifier: ^6.1.4
+    version: 6.1.4
   i18next:
     specifier: ^23.12.2
     version: 23.12.2

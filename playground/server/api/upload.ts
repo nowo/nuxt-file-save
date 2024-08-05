@@ -1,8 +1,10 @@
 // example
 export default defineEventHandler(async (event) => {
     try {
+        const form = await readFormData(event)
+
         // multiple
-        // const files = await receiveFiles(event, {
+        // const files = await receiveFiles(form, {
         //     multiple: 3, // Max 3 files at a time for now
         //     ensure: {
         //         maxSize: '50MB', // Max 50 MB each file
@@ -15,7 +17,7 @@ export default defineEventHandler(async (event) => {
         // }
 
         // single
-        const [file] = await receiveFiles(event, {
+        const [file] = await receiveFiles(form, {
             formKey: 'files', // The key of the form data
             multiple: false, // Only allow one file at a time
             ensure: {

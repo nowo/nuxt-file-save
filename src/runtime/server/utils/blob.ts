@@ -3,8 +3,8 @@ import { pipeline } from 'node:stream'
 import { promisify } from 'node:util'
 import { extname } from 'node:path'
 import { defu } from 'defu'
-import type { H3Event } from 'h3'
-import { readFormData } from 'h3'
+// import type { H3Event } from 'h3'
+// import { readFormData } from 'h3'
 import i18n from '../../../../lang/i18n'
 import { createError, useRuntimeConfig } from '#imports'
 
@@ -140,11 +140,12 @@ export function ensureBlob(blob: Blob & { name?: string }, options: BlobEnsureOp
 
 /**
  * Utility to receive a file or files from body's FormData without storing it.
- * @param event The H3Event
+ * @param form FormData
  * @param options The options to use
  * @example
+ *  const form = await readFormData(event)
  *  // multiple
- *  const files = await receiveFiles(event, {
+ *  const files = await receiveFiles(form, {
  *      multiple: 3, // Max 3 files at a time for now
  *      ensure: {
  *          maxSize: '50MB', // Max 50 MB each file
@@ -153,7 +154,7 @@ export function ensureBlob(blob: Blob & { name?: string }, options: BlobEnsureOp
  *  });
  *
  *  // single
- *  const [file] = await receiveFiles(event, {
+ *  const [file] = await receiveFiles(form, {
  *      formKey: 'files',   // The key of the form data
  *      multiple: false,    // Only allow one file at a time
  *      ensure: {
@@ -166,13 +167,13 @@ export function ensureBlob(blob: Blob & { name?: string }, options: BlobEnsureOp
  * @throws
  * If the files are invalid or don't meet the ensure conditions.
  */
-export async function receiveFiles(event: H3Event, options: BlobUploadOptions = {}) {
+export async function receiveFiles(form: FormData, options: BlobUploadOptions = {}) {
     const opt = useRuntimeConfig().public.fileSave.options
     options = defu(options, opt, { formKey: 'files', multiple: true, lang: 'en' } satisfies BlobUploadOptions)
     if (i18n.language != options.lang) {
         await i18n.changeLanguage(options.lang)
     }
-    const form = await readFormData(event)
+    // const form = await readFormData(event)
     const files = form.getAll(options.formKey!) as File[]
     // console.log(files)
     if (!files?.length) {
@@ -203,6 +204,7 @@ export async function receiveFiles(event: H3Event, options: BlobUploadOptions = 
     }
 
     return files
+    return []
 }
 
 /** Inspired by Fastify's upload guide. Used to pipe the file stream into fs */

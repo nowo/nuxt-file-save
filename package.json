@@ -30,6 +30,7 @@
   },
   "dependencies": {
     "@nuxt/kit": "^3.11.2",
+    "defu": "^6.1.4",
     "i18next": "^23.12.2"
   },
   "devDependencies": {
