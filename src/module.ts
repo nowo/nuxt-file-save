@@ -5,6 +5,7 @@ import type { BlobUploadOptions } from './runtime/server/utils/blob'
 // Here's the augmentation that makes it work
 declare module '@nuxt/schema' {
     interface PublicRuntimeConfig {
+        // this key is used meta.configKey
         fileSave: ModuleOptions
     }
 }

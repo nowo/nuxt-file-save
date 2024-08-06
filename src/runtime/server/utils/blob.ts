@@ -5,7 +5,7 @@ import { extname } from 'node:path'
 import { defu } from 'defu'
 // import type { H3Event } from 'h3'
 // import { readFormData } from 'h3'
-import i18n from '../../../../lang/i18n'
+import i18n from '../../lang/i18n'
 import { createError, useRuntimeConfig } from '#imports'
 
 // Credits from shared utils of https://github.com/pingdotgg/uploadthing
@@ -54,8 +54,7 @@ export interface BlobEnsureOptions {
     types?: BlobType[]
 }
 
-// Credits from shared utils of https://github.com/pingdotgg/uploadthing
-const FILE_SIZE_UNITS = ['B', 'KB', 'MB', 'GB', 'TB']
+
 
 /**
  * Helper function that converts any valid BlobSize into numeric bytes value
@@ -65,6 +64,8 @@ const FILE_SIZE_UNITS = ['B', 'KB', 'MB', 'GB', 'TB']
  * @throws If the input is not a valid BlobSize
  */
 export function fileSizeToBytes(input: BlobSize) {
+    // Credits from shared utils of https://github.com/pingdotgg/uploadthing
+    const FILE_SIZE_UNITS = ['B', 'KB', 'MB', 'GB', 'TB']
     const regex = new RegExp(`^(\\d+)(\\.\\d+)?\\s*(${FILE_SIZE_UNITS.join('|')})$`, 'i')
     const match = input.match(regex)
 
