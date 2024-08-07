@@ -50,7 +50,7 @@ npm install --save-dev nuxt-file-save
 
 ```ts
 export default defineNuxtConfig({
-	modules: ['nuxt-file-save'],
+    modules: ['nuxt-file-save'],
     fileSave: {
         // The location where the file is saved to disk, public by default, in the public folder at the root of the current project
         mount:'public',
@@ -103,7 +103,7 @@ Just send the formData format data to the backend
 
 ```html
 <template>
-	<input type="file" multiple @change="handleFileChange" />
+    <input type="file" multiple @change="handleFileChange" />
 </template>
 
 <script setup>
@@ -136,7 +136,7 @@ On the server side, the `receiveFiles` method is used to verify the file, and th
 // server/api/upload.ts
 
 export default defineEventHandler(async (event) => {
-	try {
+    try {
         const form = await readFormData(event)
 
         // multiple
