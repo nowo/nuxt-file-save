@@ -54,8 +54,6 @@ export interface BlobEnsureOptions {
     types?: BlobType[]
 }
 
-
-
 /**
  * Helper function that converts any valid BlobSize into numeric bytes value
  *
