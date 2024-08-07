@@ -37,8 +37,7 @@ export default defineEventHandler(async (event) => {
         const url = await handleFileUpload(file, `${Date.now()}-${randomStr}`, fileDir)
         if (!url) return { code: 500, msg: 'error' }
         return { code: 200, msg: 'success', data: url }
-    }
-    catch (error: any) {    // eslint-disable-line
+    } catch (error: any) {    // eslint-disable-line
         if (error?.statusCode === 1000) { // Rewrite the message
             return { code: error.statusCode, msg: 'Please upload the correct file' }
         }

@@ -25,7 +25,9 @@ export default defineNuxtModule<ModuleOptions>({
         configKey: 'fileSave',
     },
     // Default configuration options of the Nuxt module
-    defaults: {},
+    defaults: {
+        mount: 'public',
+    },
     setup(_options, _nuxt) {
         const config = _nuxt.options.runtimeConfig
         config.public.fileSave = defu(config.public.fileSave, {

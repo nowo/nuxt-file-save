@@ -3,6 +3,7 @@ import { pipeline } from 'node:stream'
 import { promisify } from 'node:util'
 import { extname } from 'node:path'
 import { defu } from 'defu'
+import { joinURL } from 'ufo'
 // import type { H3Event } from 'h3'
 // import { readFormData } from 'h3'
 import i18n from '../../lang/i18n'
@@ -237,16 +238,16 @@ export async function handleFileUpload(file: File, fileName = file.name, fileDir
     /** The name of the file to save in the local file system, When the filename does not have a suffix, fill in */
     const saveFileName = fileName.endsWith(ext) ? fileName : fileName + ext
 
-    mkdirSync(pathJoin(mount, fileDir || ''), { recursive: true })
+    mkdirSync(joinURL(mount, fileDir || ''), { recursive: true })
     /** The path to the directory where you want to save the file in the local file system */
-    const filePath = pathJoin(mount, fileDir || '', saveFileName)
+    const filePath = joinURL(mount, fileDir || '', saveFileName)
     // console.log(filePath)
 
     try {
         /** Stream the file into the file system to save it */
         await pump(file.stream() as any, createWriteStream(filePath)) // eslint-disable-line @typescript-eslint/no-explicit-any
 
-        return pathJoin(fileDir || '', saveFileName)
+        return joinURL(fileDir || '', saveFileName)
     }
     catch (error) {
         console.error('Error uploading file:', error) // Print error logs, such as PM2 log collection
@@ -254,21 +255,4 @@ export async function handleFileUpload(file: File, fileName = file.name, fileDir
         // throw createError({ statusCode: 500, message: 'Error uploading file' });
         return undefined
     }
-}
-
-/**
- * URL address splicing
- * @param arg string
- * @returns string
- */
-export const pathJoin = (...arg: string[]) => {
-    const arr: string[] = []
-    arg.forEach((item, index) => {
-        item = item?.trim?.()
-        if (!item) return
-        if (item.startsWith('/') && index) item = item.slice(1)
-        if (item.endsWith('/')) item = item.slice(0, -1)
-        arr.push(item)
-    })
-    return arr.join('/')
 }
