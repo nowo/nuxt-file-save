@@ -24,8 +24,8 @@ const fileTypeData = [
     { suffix: '.exe', mime: 'application/octet-stream' },
     { suffix: '.png', mime: 'image/png' },
     { suffix: '.gif', mime: 'image/gif' },
-    { suffix: '.gz', mime: 'application/gzip', size: 1024 * 1024 * 1024 }
-];
+    { suffix: '.gz', mime: 'application/gzip', size: 1024 * 1024 * 1024 },
+]
 
 // describe('upload test', async () => {
 //     let form = new FormData()
@@ -45,7 +45,6 @@ const fileTypeData = [
 //             expect(e.message).toBe('出错了！');
 //         }
 //     });
-
 
 //     // const file = new File(['hello world', '1423456'], 'test.txt', {
 //     //     type: "text/plain",

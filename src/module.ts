@@ -33,7 +33,6 @@ export default defineNuxtModule<ModuleOptions>({
         config.public.fileSave = defu(config.public.fileSave, {
             ..._options,
         })
-        // console.log(config.public.fileSave)
 
         const resolver = createResolver(import.meta.url)
 

@@ -26,7 +26,7 @@ export default defineEventHandler(async (event) => {
             },
             lang: 'zh', // Language for error messages
         })
-        // console.log('file :>> ', file);
+
         const date = new Date()
         // Generate folders based on time
         const dateDir = date.toLocaleDateString('zh-cn') // 2023/01/02

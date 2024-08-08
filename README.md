@@ -108,9 +108,7 @@ Just send the formData format data to the backend
 
 <script setup>
 const handleFileChange = (e: any) => {
-    console.log('e.target :>> ', e.target.files)
     const files = e.target.files[0]
-    // console.log(files)
     if (!files) return
 
     const formData = new FormData()
@@ -162,7 +160,7 @@ export default defineEventHandler(async (event) => {
             },
             lang: 'en', // Language for error messages
         })
-        // console.log('file :>> ', file);
+
         const date = new Date()
         // Generate folders based on time
         const dateDir = date.toLocaleDateString('zh-cn') // 2023/01/02

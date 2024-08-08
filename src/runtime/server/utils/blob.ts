@@ -6,7 +6,7 @@ import { defu } from 'defu'
 import { joinURL } from 'ufo'
 // import type { H3Event } from 'h3'
 // import { readFormData } from 'h3'
-import i18n from '../../lang/i18n'
+import i18n from '../../lang'
 import { createError, useRuntimeConfig } from '#imports'
 
 // Credits from shared utils of https://github.com/pingdotgg/uploadthing
@@ -175,7 +175,7 @@ export async function useFileVerify(form: FormData, options: BlobUploadOptions =
     }
     // const form = await readFormData(event)
     const files = form.getAll(options.formKey!) as File[]
-    // console.log(files)
+
     if (!files?.length) {
         throw createError({
             statusCode: 1003,
@@ -240,7 +240,6 @@ export async function useFileSave(file: File, fileName = file.name, fileDir = ''
     mkdirSync(joinURL(mount, fileDir), { recursive: true })
     /** The path to the directory where you want to save the file in the local file system */
     const filePath = joinURL(mount, fileDir, saveFileName)
-    // console.log(filePath)
 
     try {
         /** Stream the file into the file system to save it */
