@@ -1,6 +1,32 @@
 # Changelog
 
 
+## v1.2.0
+
+[compare changes](https://github.com/nowo/nuxt-file-save/compare/v1.1.1...v1.2.0)
+
+### 🩹 Fixes
+
+- Handles the case where the `useFileSave` method fileName parameter has an empty string name ([8215169](https://github.com/nowo/nuxt-file-save/commit/8215169))
+
+### 💅 Refactors
+
+- `receiveFiles` , `handleFileUpload` methods are renamed `useFileVerify` and `useFileSave` ([7979b11](https://github.com/nowo/nuxt-file-save/commit/7979b11))
+
+### 📖 Documentation
+
+- Update the document ([210571d](https://github.com/nowo/nuxt-file-save/commit/210571d))
+- Update the document ([d104c93](https://github.com/nowo/nuxt-file-save/commit/d104c93))
+
+### 🏡 Chore
+
+- Remove the extra files and replace `pathJoin` with `joinURL` ([7def499](https://github.com/nowo/nuxt-file-save/commit/7def499))
+- Remove console.log() and fix code style ([f0ea2b1](https://github.com/nowo/nuxt-file-save/commit/f0ea2b1))
+
+### ❤️ Contributors
+
+- Cooj ([@nowo](http://github.com/nowo))
+
 ## v1.1.1
 
 [compare changes](https://github.com/nowo/nuxt-file-save/compare/v1.1.1-0...v1.1.1)
