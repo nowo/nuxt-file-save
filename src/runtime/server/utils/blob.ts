@@ -145,7 +145,7 @@ export function ensureBlob(blob: Blob & { name?: string }, options: BlobEnsureOp
  * @example
  *  const form = await readFormData(event)
  *  // multiple
- *  const files = await receiveFiles(form, {
+ *  const files = await useFileVerify(form, {
  *      multiple: 3, // Max 3 files at a time for now
  *      ensure: {
  *          maxSize: '50MB', // Max 50 MB each file
@@ -154,7 +154,7 @@ export function ensureBlob(blob: Blob & { name?: string }, options: BlobEnsureOp
  *  });
  *
  *  // single
- *  const [file] = await receiveFiles(form, {
+ *  const [file] = await useFileVerify(form, {
  *      formKey: 'files',   // The key of the form data
  *      multiple: false,    // Only allow one file at a time
  *      ensure: {
@@ -167,7 +167,7 @@ export function ensureBlob(blob: Blob & { name?: string }, options: BlobEnsureOp
  * @throws
  * If the files are invalid or don't meet the ensure conditions.
  */
-export async function receiveFiles(form: FormData, options: BlobUploadOptions = {}) {
+export async function useFileVerify(form: FormData, options: BlobUploadOptions = {}) {
     const opt = useRuntimeConfig().public.fileSave.options
     options = defu(options, opt, { formKey: 'files', multiple: true, lang: 'en' } satisfies BlobUploadOptions)
     if (i18n.language != options.lang) {
@@ -204,7 +204,6 @@ export async function receiveFiles(form: FormData, options: BlobUploadOptions = 
     }
 
     return files
-    return []
 }
 
 /** Inspired by Fastify's upload guide. Used to pipe the file stream into fs */
@@ -218,18 +217,18 @@ const pump = promisify(pipeline)
  * @example
  * ```ts
  * // single file
- * let url = await handleFileUpload(file, 'example.jpg', 'images')  // /images/example.jpg
+ * let url = await useFileSave(file, 'example.jpg', 'images')  // /images/example.jpg
  * if (url) return url
  *
  * // multiple files
  * let list: string[] = []
  * for (const file of files) {
- *     let url = await handleFileUpload(file, `${Date.now()}.png`, 'images')  // /images/[Date.now()].png
+ *     let url = await useFileSave(file, `${Date.now()}.png`, 'images')  // /images/[Date.now()].png
  *     if(url) list.push(url)
  * }
  * ```
  */
-export async function handleFileUpload(file: File, fileName = file.name, fileDir?: string) {
+export async function useFileSave(file: File, fileName = file.name, fileDir?: string) {
     const ext = extname(file.name)
 
     let mount = useRuntimeConfig().public.fileSave.mount

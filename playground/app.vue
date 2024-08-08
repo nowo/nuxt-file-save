@@ -36,13 +36,13 @@ const submit = async () => {
     formData.append('files', file.value)
     formData.append('data', 'sds1042357')
 
-    const res = await $fetch<{ data: string }>('/api/upload', {
+    const res = await $fetch<{code:number, data: string,msg:string }>('/api/upload', {
         method: 'POST',
         body: formData,
     })
     console.log(res)
 
-    if (!res) return
+    if (res.code!==200) return alert(res.msg)
     src.value = res.data
 }
 </script>

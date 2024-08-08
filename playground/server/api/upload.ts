@@ -4,7 +4,7 @@ export default defineEventHandler(async (event) => {
         const form = await readFormData(event)
 
         // multiple
-        // const files = await receiveFiles(form, {
+        // const files = await useFileVerify(form, {
         //     multiple: 3, // Max 3 files at a time for now
         //     ensure: {
         //         maxSize: '50MB', // Max 50 MB each file
@@ -13,11 +13,11 @@ export default defineEventHandler(async (event) => {
         // });
 
         // for (const file of files) {
-        //     await handleFileUpload(file);
+        //     await useFileSave(file);
         // }
 
         // single
-        const [file] = await receiveFiles(form, {
+        const [file] = await useFileVerify(form, {
             formKey: 'files', // The key of the form data
             multiple: false, // Only allow one file at a time
             ensure: {
@@ -34,7 +34,7 @@ export default defineEventHandler(async (event) => {
         const randomStr = Math.random().toString(36).substring(2, 6 + 2) // Random String 6 bits
         const fileDir = `/upload/${dateDir}`
         // randomStr
-        const url = await handleFileUpload(file, `${Date.now()}-${randomStr}`, fileDir)
+        const url = await useFileSave(file, `${Date.now()}-${randomStr}`, fileDir)
         if (!url) return { code: 500, msg: 'error' }
         return { code: 200, msg: 'success', data: url }
     } catch (error: any) {    // eslint-disable-line

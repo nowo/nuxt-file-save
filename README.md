@@ -54,7 +54,7 @@ export default defineNuxtConfig({
     fileSave: {
         // The location where the file is saved to disk, public by default, in the public folder at the root of the current project
         mount:'public',
-        // Verify the configuration item associated with the upload file, overwriting it in the 'receiveFiles' method
+        // Verify the configuration item associated with the upload file, overwriting it in the 'useFileVerify' method
         // options?: BlobUploadOptions
     }
 })
@@ -131,7 +131,7 @@ const handleFileChange = (e: any) => {
 
 
 ### Handling files in the backend
-On the server side, the `receiveFiles` method is used to verify the file, and the `handleFileUpload` method is used to save it
+On the server side, the `useFileVerify` method is used to verify the file, and the `useFileSave` method is used to save it
 ```ts
 // server/api/upload.ts
 
@@ -140,7 +140,7 @@ export default defineEventHandler(async (event) => {
         const form = await readFormData(event)
 
         // multiple
-        // const files = await receiveFiles(form, {
+        // const files = await useFileVerify(form, {
         //     multiple: 3, // Max 3 files at a time for now
         //     ensure: {
         //         maxSize: '50MB', // Max 50 MB each file
@@ -149,11 +149,11 @@ export default defineEventHandler(async (event) => {
         // });
 
         // for (const file of files) {
-        //     await handleFileUpload(file);
+        //     await useFileSave(file);
         // }
 
         // single
-        const [file] = await receiveFiles(form, {
+        const [file] = await useFileVerify(form, {
             formKey: 'files', // The key of the form data
             multiple: false, // Only allow one file at a time
             ensure: {
@@ -169,7 +169,7 @@ export default defineEventHandler(async (event) => {
         // const dateDir = `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`
         const randomStr = Math.random().toString(36).substring(2, 6 + 2) // Random String 6 bits
         const fileDir = `/upload/${dateDir}`
-        const url = await handleFileUpload(file, `${Date.now()}-${randomStr}`, fileDir)
+        const url = await useFileSave(file, `${Date.now()}-${randomStr}`, fileDir)
         if (!url) return { code: 500, msg: 'error' }
         return { code: 200, msg: 'success', data: url }
     } catch (error: any) {    // eslint-disable-line
@@ -182,7 +182,7 @@ export default defineEventHandler(async (event) => {
 
 ## Method
 
-### `receiveFiles(form: FormData, options?: BlobUploadOptions)`
+### `useFileVerify(form: FormData, options?: BlobUploadOptions)`
 
 A method of receiving and validating files
 - `form`: `FormData` object
@@ -203,7 +203,7 @@ A method of receiving and validating files
 
 ```ts
 // multiple
-const files = await receiveFiles(form, {
+const files = await useFileVerify(form, {
     multiple: 3, // Max 3 files at a time for now
     ensure: {
         maxSize: '50MB', // Max 50 MB each file
@@ -213,7 +213,7 @@ const files = await receiveFiles(form, {
 
 try{
     // single
-    const [file] = await receiveFiles(form, {
+    const [file] = await useFileVerify(form, {
         formKey: 'files', // The key of the form data
         multiple: false, // Only allow one file at a time
         ensure: {
@@ -228,7 +228,7 @@ try{
 
 ```
 
-### `handleFileUpload(file: File, fileName = file.name, fileDir?: string)`
+### `useFileSave(file: File, fileName = file.name, fileDir?: string)`
 
 A method of uploading files.
 - `file` is the file object data.
@@ -243,7 +243,7 @@ A method of uploading files.
 **Example:**
 
 ```ts
-const url = await handleFileUpload(file, `${Date.now()}`, 'upload')
+const url = await useFileSave(file, `${Date.now()}`, 'upload')
 ```
 
 

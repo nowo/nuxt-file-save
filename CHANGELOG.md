@@ -17,7 +17,7 @@
 
 - Fix code style ([49937c8](https://github.com/nowo/nuxt-file-save/commit/49937c8))
 - Typescript types are written together, reducing the output of the file package ([7f301b8](https://github.com/nowo/nuxt-file-save/commit/7f301b8))
-- The `receiveFiles` function uses `event` as an argument in the case of a build-time error ([1e0c81a](https://github.com/nowo/nuxt-file-save/commit/1e0c81a))
+- The `useFileVerify` function uses `event` as an argument in the case of a build-time error ([1e0c81a](https://github.com/nowo/nuxt-file-save/commit/1e0c81a))
 
 ### 📦 Build
 
