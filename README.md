@@ -179,6 +179,14 @@ export default defineEventHandler(async (event) => {
 
 
 ```
+If you don't want to check the file, just save the file
+```ts
+const form = await readFormData(event)
+const [file] = form.getAll('files') as File[]
+if (file) {
+    const url = await useFileSave(file)
+}
+```
 
 ## Method
 

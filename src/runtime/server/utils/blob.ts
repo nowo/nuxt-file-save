@@ -213,7 +213,7 @@ const pump = promisify(pipeline)
  * Stores the file on the disk
  * @param file - The file to store
  * @param fileName - The name of the file (default: file.name)
- * @param fileDir - The directory where the file will be stored
+ * @param fileDir - The directory where the file will be stored (default: '')
  * @example
  * ```ts
  * // single file
@@ -228,25 +228,25 @@ const pump = promisify(pipeline)
  * }
  * ```
  */
-export async function useFileSave(file: File, fileName = file.name, fileDir?: string) {
+export async function useFileSave(file: File, fileName = file.name, fileDir = '') {
     const ext = extname(file.name)
 
     let mount = useRuntimeConfig().public.fileSave.mount
     mount = typeof mount === 'string' ? mount : 'public'
 
     /** The name of the file to save in the local file system, When the filename does not have a suffix, fill in */
-    const saveFileName = fileName.endsWith(ext) ? fileName : fileName + ext
+    const saveFileName = fileName.endsWith(ext) ? fileName : (fileName ? fileName + ext : file.name)
 
-    mkdirSync(joinURL(mount, fileDir || ''), { recursive: true })
+    mkdirSync(joinURL(mount, fileDir), { recursive: true })
     /** The path to the directory where you want to save the file in the local file system */
-    const filePath = joinURL(mount, fileDir || '', saveFileName)
+    const filePath = joinURL(mount, fileDir, saveFileName)
     // console.log(filePath)
 
     try {
         /** Stream the file into the file system to save it */
         await pump(file.stream() as any, createWriteStream(filePath)) // eslint-disable-line @typescript-eslint/no-explicit-any
 
-        return joinURL(fileDir || '', saveFileName)
+        return joinURL(fileDir, saveFileName)
     }
     catch (error) {
         console.error('Error uploading file:', error) // Print error logs, such as PM2 log collection
