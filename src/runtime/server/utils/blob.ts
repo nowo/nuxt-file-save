@@ -22,7 +22,7 @@ export type BlobType =
     | 'blob'
     | (string & Record<never, never>)
 
-export type MessageLangType = 'en'|'zh'
+export type MessageLangType = 'en' | 'zh'
 export interface BlobUploadOptions {
     /**
      * The key to get the file/files from the request form.
