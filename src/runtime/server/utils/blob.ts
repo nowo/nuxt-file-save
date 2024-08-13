@@ -22,6 +22,7 @@ export type BlobType =
     | 'blob'
     | (string & Record<never, never>)
 
+export type MessageLangType = 'en'|'zh'
 export interface BlobUploadOptions {
     /**
      * The key to get the file/files from the request form.
@@ -39,9 +40,9 @@ export interface BlobUploadOptions {
     ensure?: BlobEnsureOptions
     /**
      * The language in which the text message corresponds
-     * @default true
+     * @default 'en'
      */
-    lang?: string
+    lang?: MessageLangType
 }
 
 export interface BlobEnsureOptions {
