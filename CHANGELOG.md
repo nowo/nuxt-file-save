@@ -1,6 +1,27 @@
 # Changelog
 
 
+## v1.2.1
+
+[compare changes](https://github.com/nowo/nuxt-file-save/compare/v1.2.0...v1.2.1)
+
+### 🩹 Fixes
+
+- Set the type of the `lang` parameter ([bad131a](https://github.com/nowo/nuxt-file-save/commit/bad131a))
+
+### 📖 Documentation
+
+- Update the document, Explanation of precautions for production environment ([56386a8](https://github.com/nowo/nuxt-file-save/commit/56386a8))
+
+### 🏡 Chore
+
+- **release:** V1.2.0 ([cd051c4](https://github.com/nowo/nuxt-file-save/commit/cd051c4))
+- Update deps, add loading to app.vue ([169df5a](https://github.com/nowo/nuxt-file-save/commit/169df5a))
+
+### ❤️ Contributors
+
+- Cooj ([@nowo](http://github.com/nowo))
+
 ## v1.2.0
 
 [compare changes](https://github.com/nowo/nuxt-file-save/compare/v1.1.1...v1.2.0)

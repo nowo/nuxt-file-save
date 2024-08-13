@@ -1,6 +1,6 @@
 {
   "name": "nuxt-file-save",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "A nuxt plugin for file uploading to local disk",
   "repository": "nowo/nuxt-file-save",
   "license": "MIT",
