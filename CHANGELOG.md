@@ -1,6 +1,23 @@
 # Changelog
 
 
+## v1.2.2
+
+[compare changes](https://github.com/nowo/nuxt-file-save/compare/v1.2.1...v1.2.2)
+
+### 🩹 Fixes
+
+- Replace `ModuleOptions` with `FileSaveOptions` ([43e5468](https://github.com/nowo/nuxt-file-save/commit/43e5468))
+
+### 🤖 CI
+
+- Configure github action to publish automatically ([82dd5af](https://github.com/nowo/nuxt-file-save/commit/82dd5af))
+- Change the CI folder name ([c8fb6d9](https://github.com/nowo/nuxt-file-save/commit/c8fb6d9))
+
+### ❤️ Contributors
+
+- Cooj ([@nowo](http://github.com/nowo))
+
 ## v1.2.1
 
 [compare changes](https://github.com/nowo/nuxt-file-save/compare/v1.2.0...v1.2.1)
