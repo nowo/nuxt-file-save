@@ -2,6 +2,13 @@
   "name": "nuxt-file-save",
   "version": "1.2.1",
   "description": "A nuxt plugin for file uploading to local disk",
+  "keywords": [
+    "nuxt",
+    "nuxt-module",
+    "upload",
+    "file",
+    "save"
+  ],
   "repository": "nowo/nuxt-file-save",
   "license": "MIT",
   "type": "module",
@@ -22,7 +29,7 @@
     "dev": "nuxi dev playground",
     "dev:build": "nuxi build playground",
     "dev:prepare": "nuxt-module-build build --stub && nuxt-module-build prepare && nuxi prepare playground",
-    "release": "npm run lint && npm run test && npm run prepack && changelogen --patch --release && npm publish && git push --follow-tags",
+    "release": "npm run lint && npm run test && npm run prepack && changelogen --patch --release && git push --follow-tags",
     "lint": "eslint . --fix",
     "test": "vitest run",
     "test:watch": "vitest watch",
