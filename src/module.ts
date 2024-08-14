@@ -6,11 +6,11 @@ import type { BlobUploadOptions } from './runtime/server/utils/blob'
 declare module '@nuxt/schema' {
     interface PublicRuntimeConfig {
         // this key is used meta.configKey
-        fileSave: ModuleOptions
+        fileSave: FileSaveOptions
     }
 }
 // Module options TypeScript interface definition
-declare interface ModuleOptions {
+declare interface FileSaveOptions {
     /**
      * The path to the file mount
      * @default 'public'
@@ -19,7 +19,7 @@ declare interface ModuleOptions {
     options?: BlobUploadOptions
 }
 
-export default defineNuxtModule<ModuleOptions>({
+export default defineNuxtModule<FileSaveOptions>({
     meta: {
         name: 'file-save',
         configKey: 'fileSave',

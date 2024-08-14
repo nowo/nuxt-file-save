@@ -384,7 +384,7 @@ server {
     }
     
     #############################################################
-    # Change the directory accessed by `/upload`，Example of `useFileSave(file, '', '/upload')` with the third parameter '/upload'
+    # Change the directory accessed by `/upload`, Example of `useFileSave(file, '', '/upload')` with the third parameter '/upload'
     location ^~/upload {
         alias $base_path/public/upload; # Set access to file directory
         autoindex on;
