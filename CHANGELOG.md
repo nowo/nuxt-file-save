@@ -1,6 +1,26 @@
 # Changelog
 
 
+## v1.2.3
+
+[compare changes](https://github.com/nowo/nuxt-file-save/compare/v1.2.2...v1.2.3)
+
+### 💅 Refactors
+
+- `useFileVerify` is extracted from `server/utils` and designed to be used simultaneously on both the client and server sides ([45a09c9](https://github.com/nowo/nuxt-file-save/commit/45a09c9))
+
+### 📖 Documentation
+
+- Update the document ([d75115c](https://github.com/nowo/nuxt-file-save/commit/d75115c))
+
+### 🤖 CI
+
+- Fix a packaging error ([db0d7b5](https://github.com/nowo/nuxt-file-save/commit/db0d7b5))
+
+### ❤️ Contributors
+
+- Cooj <z8888788@163.com>
+
 ## v1.2.2
 
 [compare changes](https://github.com/nowo/nuxt-file-save/compare/v1.2.1...v1.2.2)

@@ -1,6 +1,6 @@
 {
   "name": "nuxt-file-save",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "description": "A nuxt plugin for file uploading to local disk",
   "keywords": [
     "nuxt",
