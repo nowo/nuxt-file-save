@@ -111,8 +111,20 @@ const handleFileChange = (e: any) => {
     if (!files) return
 
     const formData = new FormData()
-    formData.append('files', file.value)
+    formData.append('files', files.value)
 
+    // You can also verify before uploading the file
+    // try {
+    //     await useFileVerify(formData, {
+    //         ensure: {
+    //             maxSize: '100MB',
+    //             types: ['audio', 'image', 'video', 'pdf', 'zip'],
+    //         },
+    //     })
+    // } catch (error) {
+    //     alert(error)
+    //     return
+    // }
     const res = await $fetch<{code: number, data: string, msg: string}>('/api/upload', {
         method: 'POST',
         body: formData,
