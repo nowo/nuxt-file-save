@@ -1,6 +1,6 @@
-import { defineNuxtModule, addPlugin, createResolver, addServerScanDir } from '@nuxt/kit'
+import { defineNuxtModule, addPlugin, createResolver, addServerScanDir, addImportsDir, addServerImports } from '@nuxt/kit'
 import defu from 'defu'
-import type { BlobUploadOptions } from './runtime/server/utils/blob'
+import type { BlobUploadOptions } from './runtime/composables/blob'
 
 // Here's the augmentation that makes it work
 declare module '@nuxt/schema' {
@@ -23,6 +23,11 @@ export default defineNuxtModule<FileSaveOptions>({
     meta: {
         name: 'file-save',
         configKey: 'fileSave',
+        // Compatibility constraints
+        compatibility: {
+            // Semver version of supported nuxt versions
+            nuxt: '>=3.0.0',
+        },
     },
     // Default configuration options of the Nuxt module
     defaults: {
@@ -39,6 +44,8 @@ export default defineNuxtModule<FileSaveOptions>({
         // Do not add the extension since the `.ts` will be transpiled to `.mjs` after `npm run prepack`
         // addPlugin(resolver.resolve('./runtime/plugin'))
 
+        addImportsDir(resolver.resolve('./runtime/composables'))
+        addServerImports([{ name: 'useFileVerify', from: resolver.resolve('./runtime/composables/blob.ts') }])
         addServerScanDir(resolver.resolve('./runtime/server'))
     },
 })

@@ -21,7 +21,7 @@ export default defineEventHandler(async (event) => {
             formKey: 'files', // The key of the form data
             multiple: false, // Only allow one file at a time
             ensure: {
-                maxSize: '256MB',
+                maxSize: '25.6MB',
                 types: ['audio', 'csv', 'image', 'video', 'pdf', 'text', 'zip', 'exe'],
             },
             lang: 'zh', // Language for error messages

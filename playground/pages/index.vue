@@ -38,6 +38,21 @@ const submit = async () => {
 
     formData.append('files', file.value)
     formData.append('data', 'sds1042357')
+    // const a = formData.getAll('files')
+    // console.log('a :>> ', a)
+    try {
+        await useFileVerify(formData, {
+            ensure: {
+                maxSize: '100MB',
+                types: ['audio', 'image', 'video', 'pdf', 'zip'],
+            },
+        })
+    }
+    catch (error) {
+        alert(error)
+        return
+    }
+
     loading.value = true
     const res = await $fetch<{ code: number, data: string, msg: string }>('/api/upload', {
         method: 'POST',
