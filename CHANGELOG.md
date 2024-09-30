@@ -1,6 +1,23 @@
 # Changelog
 
 
+## v1.2.4
+
+[compare changes](https://github.com/nowo/nuxt-file-save/compare/v1.2.3...v1.2.4)
+
+### 🏡 Chore
+
+- Set local build with ci as standby ([ec8892a](https://github.com/nowo/nuxt-file-save/commit/ec8892a))
+- Update deps ([8375368](https://github.com/nowo/nuxt-file-save/commit/8375368))
+
+### 🤖 CI
+
+- Update ci configuration ([1726b48](https://github.com/nowo/nuxt-file-save/commit/1726b48))
+
+### ❤️ Contributors
+
+- Cooj ([@nowo](http://github.com/nowo))
+
 ## v1.2.3
 
 [compare changes](https://github.com/nowo/nuxt-file-save/compare/v1.2.2...v1.2.3)
