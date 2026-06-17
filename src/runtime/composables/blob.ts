@@ -56,7 +56,7 @@ export interface BlobEnsureOptions {
  *
  * @throws If the input is not a valid BlobSize
  */
-export function fileSizeToBytes(input: BlobSize) {
+export function fileSizeToBytes(input: BlobSize, lang: MessageLangType = 'en') {
     // Credits from shared utils of https://github.com/pingdotgg/uploadthing
     const FILE_SIZE_UNITS = ['B', 'KB', 'MB', 'GB', 'TB']
     const regex = new RegExp(`^(\\d+)(\\.\\d+)?\\s*(${FILE_SIZE_UNITS.join('|')})$`, 'i')
@@ -65,7 +65,7 @@ export function fileSizeToBytes(input: BlobSize) {
     if (!match) {
         throw createError({
             statusCode: 1006,
-            message: i18n.t('1006', { blobSize: input }),
+            message: i18n.t('1006', { blobSize: input, lng: lang }),
         })
     }
 
@@ -75,7 +75,7 @@ export function fileSizeToBytes(input: BlobSize) {
     if (!FILE_SIZE_UNITS.includes(sizeUnit)) {
         throw createError({
             statusCode: 1007,
-            message: i18n.t('1007', { sizeUnit }),
+            message: i18n.t('1007', { sizeUnit, lng: lang }),
         })
     }
 
@@ -93,23 +93,23 @@ export function fileSizeToBytes(input: BlobSize) {
  *
  * @throws If the blob does not meet the requirements
  */
-export function ensureBlob(blob: Blob & { name?: string }, options: BlobEnsureOptions = {}) {
+export function ensureBlob(blob: Blob & { name?: string }, options: BlobEnsureOptions = {}, lang: MessageLangType = 'en') {
     if (!(blob instanceof Blob)) {
         // Received invalid file
         throw createError({
             statusCode: 1000,
-            message: i18n.t('1000'),
+            message: i18n.t('1000', { lng: lang }),
         })
     }
 
     if (options.maxSize) {
-        const maxFileSizeBytes = fileSizeToBytes(options.maxSize)
+        const maxFileSizeBytes = fileSizeToBytes(options.maxSize, lang)
 
         if (blob.size > maxFileSizeBytes) {
             // File too heavy
             throw createError({
                 statusCode: 1002,
-                message: i18n.t('1002', { maxSize: options.maxSize }),
+                message: i18n.t('1002', { maxSize: options.maxSize, lng: lang }),
             })
         }
     }
@@ -127,7 +127,7 @@ export function ensureBlob(blob: Blob & { name?: string }, options: BlobEnsureOp
         // Invalid file type
         throw createError({
             statusCode: 1001,
-            message: i18n.t('1001', { types: options.types.join(', ') }),
+            message: i18n.t('1001', { types: options.types.join(', '), lng: lang }),
         })
     }
 }
@@ -165,36 +165,34 @@ export function ensureBlob(blob: Blob & { name?: string }, options: BlobEnsureOp
 export async function useFileVerify(form: FormData, options: BlobUploadOptions = {}) {
     const opt = useRuntimeConfig().public.fileSave.options
     options = defu(options, opt, { formKey: 'files', multiple: true, lang: 'en' } satisfies BlobUploadOptions)
-    if (i18n.language != options.lang) {
-        await i18n.changeLanguage(options.lang)
-    }
+    const lang = options.lang
     // const form = await readFormData(event)
     const files = form.getAll(options.formKey!) as File[]
 
     if (!files?.length) {
         throw createError({
             statusCode: 1003,
-            message: i18n.t('1003'),
+            message: i18n.t('1003', { lng: lang }),
         })
     }
 
     if (!options.multiple && files.length > 1) {
         throw createError({
             statusCode: 1004,
-            message: i18n.t('1004'),
+            message: i18n.t('1004', { lng: lang }),
         })
     }
 
     if (typeof options.multiple === 'number' && files.length > options.multiple) {
         throw createError({
             statusCode: 1005,
-            message: i18n.t('1005', { multiple: options.multiple }),
+            message: i18n.t('1005', { multiple: options.multiple, lng: lang }),
         })
     }
 
     if (options.ensure?.maxSize || options.ensure?.types?.length) {
         for (const file of files) {
-            ensureBlob(file, options.ensure)
+            ensureBlob(file, options.ensure, lang)
         }
     }
 

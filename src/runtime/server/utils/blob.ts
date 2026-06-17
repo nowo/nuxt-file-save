@@ -1,7 +1,7 @@
 import { createWriteStream, mkdirSync } from 'node:fs'
 import { pipeline } from 'node:stream'
 import { promisify } from 'node:util'
-import { extname } from 'node:path'
+import { basename, extname, join, resolve, sep } from 'node:path'
 import { joinURL } from 'ufo'
 import { useRuntimeConfig } from '#imports'
 
@@ -34,17 +34,31 @@ export async function useFileSave(file: File, fileName = file.name, fileDir = ''
     mount = typeof mount === 'string' ? mount : 'public'
 
     /** The name of the file to save in the local file system, When the filename does not have a suffix, fill in */
-    const saveFileName = fileName.endsWith(ext) ? fileName : (fileName ? fileName + ext : file.name)
+    const named = fileName.endsWith(ext) ? fileName : (fileName ? fileName + ext : file.name)
+    /** Strip any directory components so a (possibly client-controlled) name can't escape the mount dir */
+    const saveFileName = basename(named)
+    /** Drop leading separators so the sub-dir is never treated as an absolute path */
+    const subDir = fileDir.replace(/^[\\/]+/, '')
 
-    mkdirSync(joinURL(mount, fileDir), { recursive: true })
-    /** The path to the directory where you want to save the file in the local file system */
-    const filePath = joinURL(mount, fileDir, saveFileName)
+    const mountRoot = resolve(mount)
+    /** The directory where the file will be stored, resolved against the mount root */
+    const targetDir = resolve(mountRoot, subDir)
+
+    /** Guard against path traversal via `..` in fileDir */
+    if (targetDir !== mountRoot && !targetDir.startsWith(mountRoot + sep)) {
+        console.error('Blocked path traversal attempt:', { fileName, fileDir })
+        return undefined
+    }
+
+    mkdirSync(targetDir, { recursive: true })
+    /** The absolute path of the file in the local file system */
+    const filePath = join(targetDir, saveFileName)
 
     try {
         /** Stream the file into the file system to save it */
         await pump(file.stream() as any, createWriteStream(filePath)) // eslint-disable-line @typescript-eslint/no-explicit-any
 
-        return joinURL(fileDir, saveFileName)
+        return joinURL(subDir, saveFileName)
     }
     catch (error) {
         console.error('Error uploading file:', error) // Print error logs, such as PM2 log collection
