@@ -5,15 +5,15 @@ import { createError, useRuntimeConfig } from '#imports'
 // Credits from shared utils of https://github.com/pingdotgg/uploadthing
 export type FileSizeUnit = 'B' | 'KB' | 'MB' | 'GB' | 'TB'
 export type BlobSize = `${number}${FileSizeUnit}`
-export type BlobType =
-    | 'image'
-    | 'video'
-    | 'audio'
-    | 'pdf'
-    | 'csv'
-    | 'text'
-    | 'blob'
-    | (string & Record<never, never>)
+export type BlobType
+    = | 'image'
+        | 'video'
+        | 'audio'
+        | 'pdf'
+        | 'csv'
+        | 'text'
+        | 'blob'
+        | (string & Record<never, never>)
 
 export type MessageLangType = 'en' | 'zh'
 export interface BlobUploadOptions {
