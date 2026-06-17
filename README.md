@@ -349,7 +349,22 @@ But in a production environment, when we use `nuxt build` to build a project, th
 
 For production environment problem, I suggest using nginx to configure proxies to solve them
 
+**Recommended: store uploads outside `public`**
 
+Rather than relying on the `public` folder (which `nuxt build` copies into `.output/public`), point `mount` to a dedicated directory on the server in production and let nginx serve it directly. The uploaded files then live entirely outside the build output, so the copy issue above no longer applies and re-deploying never overwrites them:
+
+```ts
+// nuxt.config.ts
+export default defineNuxtConfig({
+    modules: ['nuxt-file-save'],
+    fileSave: {
+        // 'public' in dev; an absolute, nginx-served directory in production
+        mount: process.env.NODE_ENV === 'production' ? '/home/project/uploads' : 'public',
+    },
+})
+```
+
+Then point nginx at that directory — just set the `alias` in the config below to your `mount` path (e.g. `alias /home/project/uploads/upload;`).
 
 **Run the project using PM2**
   
