@@ -1,6 +1,41 @@
 # Changelog
 
 
+## v1.2.5
+
+[compare changes](https://github.com/nowo/nuxt-file-save/compare/v1.2.4...v1.2.5)
+
+### 🩹 Fixes
+
+- Prevent path traversal and fix i18n race ([397f377](https://github.com/nowo/nuxt-file-save/commit/397f377))
+
+### 📖 Documentation
+
+- Recommend storing uploads outside public ([de4ed2f](https://github.com/nowo/nuxt-file-save/commit/de4ed2f))
+
+### 📦 Build
+
+- **deps:** Bump rollup from 3.29.4 to 3.29.5 ([b989ca4](https://github.com/nowo/nuxt-file-save/commit/b989ca4))
+- Upgrade module-builder to 1.0, ESM-only output ([6340899](https://github.com/nowo/nuxt-file-save/commit/6340899))
+
+### 🏡 Chore
+
+- Update deps ([8375368](https://github.com/nowo/nuxt-file-save/commit/8375368))
+- **release:** V1.2.4 ([7876b60](https://github.com/nowo/nuxt-file-save/commit/7876b60))
+
+### ✅ Tests
+
+- Add file upload e2e tests ([8067cee](https://github.com/nowo/nuxt-file-save/commit/8067cee))
+
+### 🤖 CI
+
+- Use pnpm in publish workflow ([571834a](https://github.com/nowo/nuxt-file-save/commit/571834a))
+
+### ❤️ Contributors
+
+- Nowo ([@nowo](http://github.com/nowo))
+- Cooj ([@nowo](http://github.com/nowo))
+
 ## v1.2.4
 
 [compare changes](https://github.com/nowo/nuxt-file-save/compare/v1.2.3...v1.2.4)
