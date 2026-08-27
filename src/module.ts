@@ -45,7 +45,7 @@ export default defineNuxtModule<FileSaveOptions>({
         // addPlugin(resolver.resolve('./runtime/plugin'))
 
         addImportsDir(resolver.resolve('./runtime/composables'))
-        addServerImports([{ name: 'useFileVerify', from: resolver.resolve('./runtime/composables/blob.ts') }])
+        addServerImports([{ name: 'useFileVerify', from: resolver.resolve('./runtime/composables/blob') }])
         addServerScanDir(resolver.resolve('./runtime/server'))
     },
 })

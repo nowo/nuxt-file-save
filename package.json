@@ -1,62 +1,62 @@
 {
-  "name": "nuxt-file-save",
-  "version": "1.2.5",
-  "description": "A nuxt plugin for file uploading to local disk",
-  "keywords": [
-    "nuxt",
-    "nuxt-module",
-    "upload",
-    "file",
-    "save"
-  ],
-  "repository": "nowo/nuxt-file-save",
-  "license": "MIT",
-  "type": "module",
-  "exports": {
-    ".": {
-      "types": "./dist/types.d.mts",
-      "import": "./dist/module.mjs"
+    "name": "nuxt-file-save",
+    "version": "1.2.5",
+    "description": "A nuxt plugin for file uploading to local disk",
+    "keywords": [
+        "nuxt",
+        "nuxt-module",
+        "upload",
+        "file",
+        "save"
+    ],
+    "repository": "nowo/nuxt-file-save",
+    "license": "MIT",
+    "type": "module",
+    "exports": {
+        ".": {
+            "types": "./dist/types.d.mts",
+            "import": "./dist/module.mjs"
+        }
+    },
+    "main": "./dist/module.mjs",
+    "types": "./dist/types.d.mts",
+    "files": [
+        "dist"
+    ],
+    "scripts": {
+        "prepack": "nuxt-module-build build",
+        "dev": "nuxi dev playground",
+        "dev:build": "nuxi build playground",
+        "dev:prepare": "nuxt-module-build build --stub && nuxt-module-build prepare && nuxi prepare playground",
+        "release": "npm run lint && npm run test && npm run prepack && changelogen --patch --release && npm publish  && git push --follow-tags",
+        "lint": "eslint . --fix",
+        "test": "vitest run",
+        "test:watch": "vitest watch",
+        "test:types": "vue-tsc --noEmit && cd playground && vue-tsc --noEmit",
+        "test:release": "changelogen --patch --release"
+    },
+    "dependencies": {
+        "@nuxt/kit": "^3.13.2",
+        "defu": "^6.1.4",
+        "i18next": "^23.15.1"
+    },
+    "devDependencies": {
+        "@nuxt/eslint-config": "^1.16.0",
+        "@nuxt/module-builder": "^1.0.2",
+        "@nuxt/schema": "^3.13.2",
+        "@nuxt/test-utils": "^4.0.3",
+        "@types/node": "^25.9.3",
+        "changelogen": "^0.6.2",
+        "eslint": "^10.5.0",
+        "nuxt": "^3.13.2",
+        "typescript": "^5.9.3",
+        "vitest": "^4.0.2",
+        "vue-tsc": "^3.3.5"
+    },
+    "pnpm": {
+        "overrides": {
+            "tar": ">=7.5.16",
+            "esbuild": ">=0.28.1"
+        }
     }
-  },
-  "main": "./dist/module.mjs",
-  "types": "./dist/types.d.mts",
-  "files": [
-    "dist"
-  ],
-  "scripts": {
-    "prepack": "nuxt-module-build build",
-    "dev": "nuxi dev playground",
-    "dev:build": "nuxi build playground",
-    "dev:prepare": "nuxt-module-build build --stub && nuxt-module-build prepare && nuxi prepare playground",
-    "release": "npm run lint && npm run test && npm run prepack && changelogen --patch --release && npm publish  && git push --follow-tags",
-    "lint": "eslint . --fix",
-    "test": "vitest run",
-    "test:watch": "vitest watch",
-    "test:types": "vue-tsc --noEmit && cd playground && vue-tsc --noEmit",
-    "test:release": "changelogen --patch --release"
-  },
-  "dependencies": {
-    "@nuxt/kit": "^3.13.2",
-    "defu": "^6.1.4",
-    "i18next": "^23.15.1"
-  },
-  "devDependencies": {
-    "@nuxt/eslint-config": "^1.16.0",
-    "@nuxt/module-builder": "^1.0.2",
-    "@nuxt/schema": "^3.13.2",
-    "@nuxt/test-utils": "^4.0.3",
-    "@types/node": "^25.9.3",
-    "changelogen": "^0.6.2",
-    "eslint": "^10.5.0",
-    "nuxt": "^3.13.2",
-    "typescript": "latest",
-    "vitest": "^4.0.2",
-    "vue-tsc": "^3.3.5"
-  },
-  "pnpm": {
-    "overrides": {
-      "tar": ">=7.5.16",
-      "esbuild": ">=0.28.1"
-    }
-  }
 }
